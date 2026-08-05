@@ -7,5 +7,9 @@ export const routes: Routes = [
       import("./features/student-dashboard/student-dashboard.component")
         .then((m) => m.StudentDashboardComponent),
   },
-  { path: "", redirectTo: "dashboard", pathMatch: "full" },
+  {
+    path: "",
+    redirectTo: "dashboard",
+    pathMatch: "full",
+  },
 ];
