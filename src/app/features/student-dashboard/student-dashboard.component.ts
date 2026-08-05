@@ -1,4 +1,6 @@
 import { Component, signal, computed } from "@angular/core";
+import { CourseCardComponent } from "../../ui/course-card/course-card.component";
+import { Course } from "../../models/course.model";
 
 @Component({
   selector: "app-student-dashboard",
