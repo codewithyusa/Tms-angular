@@ -22,14 +22,6 @@ export class StudentDashboardComponent {
 
   selectedCourse = signal<Course | null>(null);
 
-  sampleCourse: Course = {
-    id: 1,
-    title: "Advanced Java Services",
-    code: "CSE-101",
-    maxCapacity: 30,
-    enrollmentCount: 12,
-  };
-
   availableCourses = signal<Course[]>([
     {
       id: 1,
