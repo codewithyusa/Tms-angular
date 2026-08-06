@@ -1,1 +1,33 @@
-<p>instructor-dashboard works!</p>
+<div class="dashboard">
+  <h1>Instructor Command Center</h1>
+
+  <div class="summary-cards">
+    <div class="card">
+      <span class="count">{{ store.entities().length }}</span>
+      <span class="label">Total Enrollments</span>
+    </div>
+    <div class="card">
+      <span class="count">{{ store.pendingCount() }}</span>
+      <span class="label">Pending Approval</span>
+    </div>
+  </div>
+
+  <hr />
+
+  <!--
+    @defer (on viewport; prefetch on idle(500)):
+    - The chart component's JS chunk does NOT download until the user scrolls
+      this block into view (on viewport).
+    - Angular also prefetches the chunk in the background once the browser is
+      idle for 500ms, so if the user does scroll down, it's likely cached already.
+  -->
+  @defer (on viewport; prefetch on idle(500)) {
+    <tms-analytics-chart [data]="store.entities()" />
+  } @placeholder {
+    <div class="placeholder">Scroll down to view analytics...</div>
+  } @loading (minimum 500ms) {
+    <div class="loading">Downloading chart engine...</div>
+  } @error {
+    <div class="error">Failed to load chart. Check your connection.</div>
+  }
+</div>
