@@ -21,7 +21,7 @@
     - Angular also prefetches the chunk in the background once the browser is
       idle for 500ms, so if the user does scroll down, it's likely cached already.
   -->
-  @defer (on viewport; prefetch on idle(500)) {
+  @defer (on viewport; prefetch on idle) {
     <tms-analytics-chart [data]="store.entities()" />
   } @placeholder {
     <div class="placeholder">Scroll down to view analytics...</div>
