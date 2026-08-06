@@ -27,8 +27,8 @@ export class StudentDashboardComponent {
   selectedCourse = signal<Course | null>(null);
 
   coursesResource = rxResource({
-    loader: () => this.api.getAll(),
-  });
+  stream: () => this.api.getAll(),
+});
 
   registerForClass() {
     this.earnedCredits.update((c) => c + 3);
