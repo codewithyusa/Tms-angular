@@ -1,4 +1,4 @@
-import { Routes } from "@angular/router";
+import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
@@ -18,6 +18,12 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/enrollment-form/enrollment-form.component')
         .then(m => m.EnrollmentFormComponent)
+  },
+  {
+    path: 'instructor-dashboard',
+    loadComponent: () =>
+      import('./features/instructor-dashboard/instructor-dashboard.component')
+        .then(m => m.InstructorDashboardComponent)
   },
   {
     path: "",
