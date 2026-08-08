@@ -1,15 +1,24 @@
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Subject, of } from 'rxjs';
 import { exhaustMap, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { GradeService, GradePayload } from '../../services/grade.service';
 
 @Component({
   selector: 'tms-grade-submission',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatProgressSpinnerModule
+  ],
   templateUrl: './grade-submission.component.html'
 })
 export class GradeSubmissionComponent {
@@ -36,8 +45,6 @@ export class GradeSubmissionComponent {
 
           return this.api.postGrade(payload).pipe(
             catchError(err => {
-              // Without this, an HTTP error would kill submitClick$ entirely —
-              // exhaustMap propagates inner errors up and terminates the outer stream.
               this.isSubmitting = false;
               this.submissionStatus = `Submission failed: ${err.message || 'Server error'}`;
               return of(null);
@@ -60,7 +67,7 @@ export class GradeSubmissionComponent {
       this.submitClick$.next({
         studentId: Number(rawValue.studentId),
         courseId: Number(rawValue.courseId),
-        score: Number(rawValue.score)
+        score: Number(rawValue.score) as any
       });
     }
   }
