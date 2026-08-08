@@ -12,8 +12,9 @@ import {
   updateEntity,
 } from '@ngrx/signals/entities';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { pipe, concatMap, tap, catchError, EMPTY } from 'rxjs';
+import { pipe, concatMap, tap, catchError, switchMap, EMPTY } from 'rxjs';
 import { EnrollmentService } from '../services/enrollment.service';
+import { LiveSyncService } from '../services/live-sync.service';
 import { Enrollment } from '../models/enrollment.model';
 
 export const EnrollmentStore = signalStore(
@@ -35,7 +36,11 @@ export const EnrollmentStore = signalStore(
     ),
   })),
 
-  withMethods((store, api = inject(EnrollmentService)) => ({
+  withMethods((
+    store,
+    api = inject(EnrollmentService),
+    sync = inject(LiveSyncService)
+  ) => ({
     // Loading Data
     // Why concatMap here? Because concatMap processes one emission at a time
     // in strict order. If something triggers loadEnrollments() twice quickly,
@@ -78,6 +83,21 @@ export const EnrollmentStore = signalStore(
             })
           )
         )
+      )
+    ),
+
+    // Listens to the SignalR live sync stream and patches matching entities
+    // as approval events arrive from other clients/tabs.
+    listenForLiveUpdates: rxMethod<void>(
+      pipe(
+        tap(() => sync.connect()),
+        switchMap(() => sync.events$),
+        tap(event => {
+          patchState(
+            store,
+            updateEntity({ id: event.id, changes: { status: event.status } })
+          );
+        })
       )
     ),
   }))
