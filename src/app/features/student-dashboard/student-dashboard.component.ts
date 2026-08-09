@@ -3,6 +3,7 @@ import { rxResource } from "@angular/core/rxjs-interop";
 import { CourseCardComponent } from "../../ui/course-card/course-card.component";
 import { Course } from "../../models/course.model";
 import { CourseService } from "../../services/course.service";
+import { EnrollmentService } from "../../services/enrollment.service";
 
 @Component({
   selector: 'app-student-dashboard',
@@ -13,9 +14,9 @@ import { CourseService } from "../../services/course.service";
 })
 export class StudentDashboardComponent {
   private api = inject(CourseService);
+  private enrollmentApi = inject(EnrollmentService);
 
   studentName = signal("Liya Kebede");
-
   earnedCredits = signal(45);
 
   graduationStatus = computed(() =>
@@ -27,8 +28,8 @@ export class StudentDashboardComponent {
   selectedCourse = signal<Course | null>(null);
 
   coursesResource = rxResource({
-  stream: () => this.api.getAll(),
-});
+    stream: () => this.api.getAll(),
+  });
 
   registerForClass() {
     this.earnedCredits.update((c) => c + 3);
@@ -36,6 +37,9 @@ export class StudentDashboardComponent {
 
   handleEnroll(course: Course) {
     this.selectedCourse.set(course);
-    console.log('Enrollment requested for:', course.title);
+    this.enrollmentApi.create(course.id, { studentId: 1 }).subscribe({
+      next: () => console.log('Enrolled in:', course.title),
+      error: (err) => console.error('Enrollment failed:', err)
+    });
   }
 }
