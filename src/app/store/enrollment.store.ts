@@ -14,7 +14,7 @@ import {
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, concatMap, tap, catchError, switchMap, EMPTY } from 'rxjs';
 import { EnrollmentService } from '../services/enrollment.service';
-import { LiveSyncService } from '../services/live-sync.service';
+import { LiveSyncService } from '../services/live-sync';
 import { Enrollment } from '../models/enrollment.model';
 
 export const EnrollmentStore = signalStore(
