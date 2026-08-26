@@ -1,39 +1,192 @@
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
+// ── CSS Variables (Theme Tokens) ──────────────────────────────
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --secondary: #06b6d4;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --radius: 12px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+  --transition: 0.25s ease;
+
+  // Light theme
+  --bg: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-sidebar: #ffffff;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --nav-bg: #ffffff;
+}
+
+[data-theme="dark"] {
+  --bg: #0f172a;
+  --bg-card: #1e293b;
+  --bg-sidebar: #1e293b;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border: #334155;
+  --nav-bg: #1e293b;
+  color-scheme: dark;
+}
+
+// ── Reset ─────────────────────────────────────────────────────
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: 'Inter', 'Roboto', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background var(--transition), color var(--transition);
+}
+
+// ── Typography ────────────────────────────────────────────────
+h1 { font-size: 1.875rem; font-weight: 700; }
+h2 { font-size: 1.5rem; font-weight: 600; }
+h3 { font-size: 1.25rem; font-weight: 600; }
+p  { color: var(--text-muted); line-height: 1.6; }
+
+// ── Shared Button ─────────────────────────────────────────────
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.4rem;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+
+  &-primary {
+    background: var(--primary);
+    color: #fff;
+    &:hover { background: var(--primary-dark); transform: translateY(-1px); }
+  }
+  &-danger {
+    background: var(--danger);
+    color: #fff;
+    &:hover { opacity: 0.85; }
+  }
+  &-outline {
+    background: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    &:hover { background: var(--primary); color: #fff; }
+  }
+  &:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+}
+
+// ── Shared Card ───────────────────────────────────────────────
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  transition: background var(--transition), border var(--transition);
+}
+
+// ── Status Badges ─────────────────────────────────────────────
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+
+  &.approved  { background: #d1fae5; color: #065f46; }
+  &.pending   { background: #fef3c7; color: #92400e; }
+  &.rejected  { background: #fee2e2; color: #991b1b; }
+  &.full      { background: #e0e7ff; color: #3730a3; }
+
+  [data-theme="dark"] & {
+    &.approved  { background: #065f46; color: #a7f3d0; }
+    &.pending   { background: #78350f; color: #fde68a; }
+    &.rejected  { background: #7f1d1d; color: #fca5a5; }
+    &.full      { background: #312e81; color: #c7d2fe; }
+  }
+}
+
+// ── Form Fields ───────────────────────────────────────────────
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.2rem;
+
+  label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  input, select, textarea {
+    padding: 0.65rem 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 0.95rem;
+    transition: border var(--transition);
+    outline: none;
+
+    &:focus { border-color: var(--primary); }
+  }
+
+  .error {
+    font-size: 0.8rem;
+    color: var(--danger);
+    margin-top: 0.2rem;
+  }
+}
+
+// ── Loading Spinner ───────────────────────────────────────────
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  color: var(--text-muted);
+
+  &::after {
+    content: '';
+    width: 36px;
+    height: 36px;
+    border: 3px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+// ── Page Layout ───────────────────────────────────────────────
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+// ── Grid ──────────────────────────────────────────────────────
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+// ── Material overrides ────────────────────────────────────────
 html {
-  height: 100%;
-  @include mat.theme(
-    (
-      color: (
-        primary: mat.$azure-palette,
-        tertiary: mat.$blue-palette,
-      ),
-      typography: Roboto,
-      density: 0,
-    )
-  );
+  @include mat.theme((
+    color: (primary: mat.$azure-palette, tertiary: mat.$blue-palette),
+    typography: Roboto,
+    density: 0,
+  ));
 }
-
-body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
-  color-scheme: light;
-
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
-
-  // Reset the user agent margin.
-  margin: 0;
-  height: 100%;
-}
-/* You can add global styles to this file, and also import other style files */

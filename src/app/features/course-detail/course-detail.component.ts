@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [RouterLink],
   templateUrl: "./course-detail.component.html",
+  styleUrl: "./course-detail.component.scss"
 })
 export class CourseDetailComponent {
   id = input.required<string>();

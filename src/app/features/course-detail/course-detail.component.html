@@ -1,3 +1,25 @@
-<h1>Course Detail</h1>
-<p>Course ID: {{ id() }}</p>
-<a routerLink="/dashboard">Back to Dashboard</a>
+<div class="detail-card">
+  <a routerLink="/dashboard" class="back-link">← Back to Dashboard</a>
+
+  <h1>Course Detail</h1>
+
+  <div class="course-id">
+    Course ID: <span>{{ id() }}</span>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-item">
+      <div class="info-label">Course ID</div>
+      <div class="info-value">{{ id() }}</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Status</div>
+      <div class="info-value">Active</div>
+    </div>
+  </div>
+
+  <div class="coming-soon">
+    <div class="icon">📚</div>
+    <p>Full course details will load from the API once connected.</p>
+  </div>
+</div>

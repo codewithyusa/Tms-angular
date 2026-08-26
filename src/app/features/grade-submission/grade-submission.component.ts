@@ -12,14 +12,9 @@ import { GradeService, GradePayload } from '../../services/grade.service';
 @Component({
   selector: 'tms-grade-submission',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatProgressSpinnerModule
-  ],
-  templateUrl: './grade-submission.component.html'
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule],
+  templateUrl: './grade-submission.component.html',
+  styleUrl: './grade-submission.component.scss'
 })
 export class GradeSubmissionComponent {
   private api = inject(GradeService);

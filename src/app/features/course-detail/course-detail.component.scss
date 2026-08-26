@@ -1,0 +1,91 @@
+:host {
+  display: block;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.detail-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    transition: gap 0.2s ease;
+
+    &:hover { gap: 0.6rem; }
+  }
+
+  h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .course-id {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+
+    span { font-weight: 700; color: var(--primary); }
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+
+    .info-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+
+      .info-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-muted);
+        margin-bottom: 0.4rem;
+      }
+
+      .info-value {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text);
+      }
+    }
+  }
+
+  .coming-soon {
+    text-align: center;
+    padding: 3rem;
+    background: var(--bg);
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    color: var(--text-muted);
+
+    .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    p { margin: 0; font-size: 0.95rem; }
+  }
+}

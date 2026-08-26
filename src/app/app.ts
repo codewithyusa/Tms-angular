@@ -1,24 +1,46 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, signal, OnInit, inject } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
+import { AuthService } from './services/auth.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App {
-  name = 'Liya';
-  credits = signal(45);
+export class App implements OnInit {
+  auth = inject(AuthService);
+  private router = inject(Router);
 
-  get graduationStatus() {
-    return this.credits() >= 120
-      ? 'Eligible for Graduation'
-      : 'In Progress';
+  isDark = signal(false);
+  isAuthPage = signal(false);
+
+  ngOnInit() {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark') {
+      this.isDark.set(true);
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+
+    this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd)
+    ).subscribe((e: any) => {
+      const authRoutes = ['/login', '/register', '/unauthorized'];
+      this.isAuthPage.set(authRoutes.some(r => e.url.startsWith(r)));
+    });
   }
 
-  addCredits() {
-    this.credits.update(value => value + 3);
+  toggleTheme() {
+    this.isDark.update(v => !v);
+    const theme = this.isDark() ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }
+
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/login']);
   }
 }

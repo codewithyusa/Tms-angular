@@ -1,1 +1,34 @@
-<router-outlet />
+@if (!isAuthPage()) {
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <span class="brand-icon">🎓</span>
+      <span class="brand-name">TMS</span>
+    </div>
+
+    <div class="navbar-links">
+      @if (auth.hasRole('Student')) {
+        <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+        <a routerLink="/enroll" routerLinkActive="active">Enroll</a>
+      }
+      @if (auth.hasRole('Instructor')) {
+        <a routerLink="/instructor-dashboard" routerLinkActive="active">Instructor</a>
+        <a routerLink="/enrollments" routerLinkActive="active">Enrollments</a>
+        <a routerLink="/grade-submission" routerLinkActive="active">Grades</a>
+      }
+    </div>
+
+    <div class="navbar-right">
+      @if (auth.currentUser()) {
+        <span class="user-info">{{ auth.currentUser()?.displayName }}</span>
+        <button class="logout-btn" (click)="logout()">Logout</button>
+      }
+      <button class="theme-toggle" (click)="toggleTheme()">
+        {{ isDark() ? '☀️' : '🌙' }}
+      </button>
+    </div>
+  </nav>
+}
+
+<main class="main-content" [class.auth-page]="isAuthPage()">
+  <router-outlet />
+</main>

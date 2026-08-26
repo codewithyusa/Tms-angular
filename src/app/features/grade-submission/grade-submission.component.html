@@ -1,8 +1,8 @@
-<div class="p-6 max-w-md mx-auto">
-  <h2 class="text-xl font-semibold mb-1">Grade Submission Form</h2>
-  <p class="text-sm text-gray-500 mb-4">Instructor Midterm Grading</p>
+<div>
+  <h2>Grade Submission Form</h2>
+  <p>Instructor Midterm Grading</p>
 
-  <form [formGroup]="gradeForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+  <form [formGroup]="gradeForm" (ngSubmit)="onSubmit()">
 
     <mat-form-field appearance="outline">
       <mat-label>Student ID</mat-label>
@@ -28,20 +28,19 @@
       }
     </mat-form-field>
 
-    <button
-      mat-raised-button
-      color="primary"
-      type="submit"
-      [disabled]="gradeForm.invalid || isSubmitting"
-    >
+    <button mat-raised-button color="primary" type="submit"
+      [disabled]="gradeForm.invalid || isSubmitting">
       @if (isSubmitting) {
-        <mat-spinner diameter="20" class="inline-block mr-2"></mat-spinner>
+        <mat-spinner diameter="20"></mat-spinner>
       }
       Submit Final Grade
     </button>
 
     @if (submissionStatus) {
-      <p class="text-sm mt-2">{{ submissionStatus }}</p>
+      <p class="status-msg" [class.success]="submissionStatus.includes('success')"
+         [class.error]="submissionStatus.includes('failed')">
+        {{ submissionStatus }}
+      </p>
     }
 
   </form>
