@@ -39,7 +39,7 @@ export class RegisterComponent {
 
     try {
       await firstValueFrom(
-        this.http.post('/api/auth/register', this.form.getRawValue())
+        this.http.post('/api/v1/auth/register', this.form.getRawValue())
       );
       this.successMessage.set('Registration successful! Redirecting to login...');
       setTimeout(() => this.router.navigate(['/login']), 2000);

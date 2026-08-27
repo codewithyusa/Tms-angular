@@ -17,14 +17,14 @@
       <div class="form-row">
         <div class="form-group">
           <label>First Name</label>
-          <input type="text" formControlName="firstName" placeholder="John" />
+          <input type="text" formControlName="firstName" placeholder="First name" />
           @if (form.controls.firstName.touched && form.controls.firstName.invalid) {
             <span class="error">Required</span>
           }
         </div>
         <div class="form-group">
           <label>Last Name</label>
-          <input type="text" formControlName="lastName" placeholder="Doe" />
+          <input type="text" formControlName="lastName" placeholder="Last name" />
           @if (form.controls.lastName.touched && form.controls.lastName.invalid) {
             <span class="error">Required</span>
           }

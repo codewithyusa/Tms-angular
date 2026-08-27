@@ -14,7 +14,9 @@
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 2.5rem;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  box-sizing: border-box;
 
   .auth-header {
     text-align: center;
@@ -42,12 +44,18 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
+    min-width: 0;
+
+    .form-group {
+      min-width: 0;
+    }
   }
 
   .form-group {
     display: flex; flex-direction: column; gap: 0.4rem;
     label { font-size: 0.875rem; font-weight: 600; color: var(--text); }
     input, select {
+      width: 100%;
       padding: 0.7rem 1rem;
       border: 1.5px solid var(--border);
       border-radius: 8px;
@@ -56,15 +64,18 @@
       font-size: 0.95rem;
       outline: none;
       transition: border 0.2s ease;
+      box-sizing: border-box;
       &:focus { border-color: var(--primary); }
     }
     .error { font-size: 0.8rem; color: #ef4444; }
   }
 
   .submit-btn {
+    width: 100%;
     padding: 0.8rem; background: var(--primary); color: #fff;
     border: none; border-radius: 8px; font-size: 1rem;
     font-weight: 600; cursor: pointer; transition: all 0.25s ease; margin-top: 0.5rem;
+    box-sizing: border-box;
     &:hover:not(:disabled) { background: var(--primary-dark); transform: translateY(-1px); }
     &:disabled { opacity: 0.6; cursor: not-allowed; }
   }
