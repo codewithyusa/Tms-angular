@@ -19,7 +19,7 @@
 
     <div class="navbar-right">
       @if (auth.currentUser()) {
-        <span class="user-info">{{ auth.currentUser()?.displayName }}</span>
+        <span class="user-info">{{ auth.currentUser()?.displayName || auth.currentUser()?.email }}</span>
         <button class="logout-btn" (click)="logout()">Logout</button>
       }
       <button class="theme-toggle" (click)="toggleTheme()">
