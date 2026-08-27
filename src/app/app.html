@@ -18,6 +18,7 @@
     </div>
 
     <div class="navbar-right">
+      <span style="color:red;font-size:0.8rem">{{ auth.currentUser()?.role }}</span>
       @if (auth.currentUser()) {
         <span class="user-info">{{ auth.currentUser()?.displayName || auth.currentUser()?.email }}</span>
         <button class="logout-btn" (click)="logout()">Logout</button>
