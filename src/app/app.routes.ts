@@ -31,6 +31,11 @@ export const routes: Routes = [
     canActivate: [roleGuard('Student')]
   },
   {
+    path: 'courses',
+    redirectTo: 'dashboard',
+    pathMatch: 'full'
+  },
+  {
     path: 'courses/:id',
     loadComponent: () =>
       import('./features/course-detail/course-detail.component')

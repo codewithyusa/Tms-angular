@@ -73,6 +73,7 @@
     box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
     animation: slideUp 0.3s ease;
     z-index: 999;
+    pointer-events: none;
 
     strong { color: #fff; }
   }

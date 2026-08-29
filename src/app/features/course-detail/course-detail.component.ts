@@ -1,5 +1,7 @@
-import { Component, input, effect } from "@angular/core";
+import { Component, input, inject, computed } from "@angular/core";
 import { RouterLink } from '@angular/router';
+import { rxResource } from "@angular/core/rxjs-interop";
+import { CourseService } from "../../services/course.service";
 
 @Component({
   selector: "app-course-detail",
@@ -10,10 +12,22 @@ import { RouterLink } from '@angular/router';
 })
 export class CourseDetailComponent {
   id = input.required<string>();
+  private api = inject(CourseService);
 
-  constructor() {
-    effect(() => {
-      console.log(`Loading course detail for ID: ${this.id()}`);
-    });
-  }
+  courseResource = rxResource({
+    request: () => this.id(),
+    loader: ({ request: id }) => this.api.getById(id)
+  });
+
+  seatsAvailable = computed(() => {
+    const course = this.courseResource.value();
+    if (!course) return 0;
+    return course.maxCapacity - course.enrollmentCount;
+  });
+
+  isFull = computed(() => {
+    const course = this.courseResource.value();
+    if (!course) return false;
+    return course.enrollmentCount >= course.maxCapacity;
+  });
 }

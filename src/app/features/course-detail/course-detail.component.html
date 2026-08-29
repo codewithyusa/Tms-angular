@@ -1,25 +1,46 @@
 <div class="detail-card">
   <a routerLink="/dashboard" class="back-link">← Back to Dashboard</a>
 
-  <h1>Course Detail</h1>
-
-  <div class="course-id">
-    Course ID: <span>{{ id() }}</span>
-  </div>
-
-  <div class="info-grid">
-    <div class="info-item">
-      <div class="info-label">Course ID</div>
-      <div class="info-value">{{ id() }}</div>
+  @if (courseResource.isLoading()) {
+    <div class="spinner"></div>
+  } @else if (courseResource.error()) {
+    <div class="error-state">
+      <p>Could not load course. Make sure your .NET API is running.</p>
     </div>
-    <div class="info-item">
-      <div class="info-label">Status</div>
-      <div class="info-value">Active</div>
+  } @else if (courseResource.value(); as course) {
+    <div class="detail-header">
+      <div>
+        <h1>{{ course.title }}</h1>
+        <span class="code-badge">{{ course.code }}</span>
+      </div>
+      <span class="status-badge" [class.full]="isFull()">
+        {{ isFull() ? 'Full' : 'Accepting Enrollments' }}
+      </span>
     </div>
-  </div>
 
-  <div class="coming-soon">
-    <div class="icon">📚</div>
-    <p>Full course details will load from the API once connected.</p>
-  </div>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-label">Course Code</div>
+        <div class="info-value">{{ course.code }}</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Max Capacity</div>
+        <div class="info-value">{{ course.maxCapacity }}</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Enrolled</div>
+        <div class="info-value">{{ course.enrollmentCount }}</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Seats Available</div>
+        <div class="info-value">{{ seatsAvailable() }}</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a routerLink="/enroll" class="btn-enroll" [class.disabled]="isFull()">
+        {{ isFull() ? 'Course Full' : 'Enroll in this Course' }}
+      </a>
+    </div>
+  }
 </div>

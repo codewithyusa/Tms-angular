@@ -28,6 +28,15 @@ export class AuthService {
   private readonly refreshToken = signal<string | null>(null);
   readonly currentUser = signal<TmsUser | null>(null);
 
+  constructor() {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      this.accessToken.set(token);
+      this.refreshToken.set(localStorage.getItem('refreshToken'));
+      this.currentUser.set(this.decodeUserFromToken(token));
+    }
+  }
+
   getAccessToken(): string | null {
     return this.accessToken();
   }
@@ -50,12 +59,17 @@ export class AuthService {
     this.accessToken.set(response.accessToken);
     this.refreshToken.set(response.refreshToken);
     this.currentUser.set(this.decodeUserFromToken(response.accessToken));
+
+    localStorage.setItem('accessToken', response.accessToken);
+    localStorage.setItem('refreshToken', response.refreshToken);
   }
 
   logout(): void {
     this.accessToken.set(null);
     this.refreshToken.set(null);
     this.currentUser.set(null);
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
   }
 
   private decodeUserFromToken(token: string): TmsUser {

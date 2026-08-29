@@ -1,5 +1,6 @@
 import { Component, signal, computed, inject } from "@angular/core";
 import { rxResource } from "@angular/core/rxjs-interop";
+import { Router } from "@angular/router";
 import { CourseCardComponent } from "../../ui/course-card/course-card.component";
 import { Course } from "../../models/course.model";
 import { CourseService } from "../../services/course.service";
@@ -13,9 +14,9 @@ import { CourseService } from "../../services/course.service";
 })
 export class StudentDashboardComponent {
   private api = inject(CourseService);
+  private router = inject(Router);
 
   studentName = signal("Liya Kebede");
-
   earnedCredits = signal(45);
 
   graduationStatus = computed(() =>
@@ -27,8 +28,8 @@ export class StudentDashboardComponent {
   selectedCourse = signal<Course | null>(null);
 
   coursesResource = rxResource({
-  stream: () => this.api.getAll(),
-});
+    stream: () => this.api.getAll(),
+  });
 
   registerForClass() {
     this.earnedCredits.update((c) => c + 3);
@@ -36,6 +37,8 @@ export class StudentDashboardComponent {
 
   handleEnroll(course: Course) {
     this.selectedCourse.set(course);
-    console.log('Enrollment requested for:', course.title);
+    this.router.navigate(['/enroll'], {
+      queryParams: { courseId: course.id, courseTitle: course.title }
+    });
   }
 }

@@ -14,16 +14,13 @@
   } @else {
     <div class="grid">
       @for (course of coursesResource.value()!; track course.id) {
-        <tms-course-card [course]="course" (enrollClicked)="handleEnroll($event)" />
+        <tms-course-card 
+          [course]="course" 
+          (enrollClicked)="handleEnroll($event)"
+        />
       } @empty {
         <p>No courses are available this term.</p>
       }
     </div>
-  }
-
-  @if (selectedCourse(); as picked) {
-    <p class="selection-hint" role="status">
-      Last enrollment request: <strong>{{ picked.title }}</strong> ({{ picked.code }})
-    </p>
   }
 </div>
