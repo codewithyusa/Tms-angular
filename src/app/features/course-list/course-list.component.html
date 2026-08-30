@@ -1,0 +1,20 @@
+<div class="course-list">
+  <h1>Course Catalog</h1>
+
+  @if (coursesResource.isLoading()) {
+    <p class="state-msg">Fetching courses from the server...</p>
+  } @else if (coursesResource.error()) {
+    <p class="state-msg error">Could not load courses. Make sure your .NET API is running.</p>
+  } @else {
+    <div class="grid">
+      @for (course of coursesResource.value()!; track course.id) {
+        <tms-course-card
+          [course]="course"
+          (enrollClicked)="handleEnroll($event)"
+        />
+      } @empty {
+        <p class="state-msg">No courses are available this term.</p>
+      }
+    </div>
+  }
+</div>

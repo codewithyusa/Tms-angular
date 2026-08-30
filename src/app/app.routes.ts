@@ -32,8 +32,10 @@ export const routes: Routes = [
   },
   {
     path: 'courses',
-    redirectTo: 'dashboard',
-    pathMatch: 'full'
+    loadComponent: () =>
+      import('./features/course-list/course-list.component')
+        .then(m => m.CourseListComponent),
+    canActivate: [roleGuard('Student')]
   },
   {
     path: 'courses/:id',
