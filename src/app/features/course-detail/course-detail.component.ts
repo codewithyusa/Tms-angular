@@ -3,6 +3,13 @@ import { RouterLink } from '@angular/router';
 import { rxResource } from "@angular/core/rxjs-interop";
 import { CourseService } from "../../services/course.service";
 
+interface Course {
+  title: string;
+  code: string;
+  maxCapacity: number;
+  enrollmentCount: number;
+}
+
 @Component({
   selector: "app-course-detail",
   standalone: true,
@@ -14,9 +21,9 @@ export class CourseDetailComponent {
   id = input.required<string>();
   private api = inject(CourseService);
 
-  courseResource = rxResource({
-    request: () => this.id(),
-    loader: ({ request: id }) => this.api.getById(id)
+  courseResource = rxResource<Course, string>({
+    params: () => this.id(),
+    stream: ({ params: id }) => this.api.getById(id)
   });
 
   seatsAvailable = computed(() => {
