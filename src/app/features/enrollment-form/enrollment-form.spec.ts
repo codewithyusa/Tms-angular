@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EnrollmentForm } from './enrollment-form';
+import { EnrollmentFormComponent } from './enrollment-form.component';
 
 describe('EnrollmentForm', () => {
   let component: EnrollmentForm;

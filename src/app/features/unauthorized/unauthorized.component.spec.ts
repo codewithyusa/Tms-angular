@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Unauthorized } from './unauthorized';
+import { UnauthorizedComponent } from './unauthorized.component';
 
 describe('Unauthorized', () => {
   let component: Unauthorized;
