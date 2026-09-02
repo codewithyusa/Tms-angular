@@ -6,6 +6,8 @@ import {
   ReactiveFormsModule,
   FormArray,
 } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
+import { EnrollmentService } from "../../services/enrollment.service";
 
 @Component({
   selector: "app-enrollment-form",
@@ -16,15 +18,26 @@ import {
 })
 export class EnrollmentFormComponent {
   private fb = inject(FormBuilder);
+  private route = inject(ActivatedRoute);
+  private enrollmentService = inject(EnrollmentService);
 
   submitted = signal(false);
+  error = signal<string | null>(null);
+  loading = signal(false);
+
+  private courseIdFromRoute = Number(
+    this.route.snapshot.queryParamMap.get('courseId') ?? ''
+  );
 
   form = this.fb.nonNullable.group({
     studentId: [
       "",
-      [Validators.required, Validators.pattern("^STU-[0-9]{4}$")],
+      [Validators.required, Validators.pattern("^[0-9]+$"), Validators.min(1)],
     ],
-    courseId: ["", Validators.required],
+    courseId: [
+      this.courseIdFromRoute ? String(this.courseIdFromRoute) : "",
+      Validators.required
+    ],
     term: ["Fall 2026", Validators.required],
     notes: [""],
     backupCourses: this.fb.array<FormControl<string>>([]),
@@ -39,7 +52,7 @@ export class EnrollmentFormComponent {
       this.fb.control("", {
         nonNullable: true,
         validators: Validators.required,
-      }),
+      })
     );
   }
 
@@ -48,12 +61,29 @@ export class EnrollmentFormComponent {
   }
 
   submit() {
-    if (this.form.valid) {
-      const payload = this.form.getRawValue();
-      console.log("Enrollment payload:", payload);
-      this.submitted.set(true);
-    } else {
+    if (this.form.invalid) {
       this.form.markAllAsTouched();
+      return;
     }
+
+    const raw = this.form.getRawValue();
+    const studentId = Number(raw.studentId);
+    const courseId = Number(raw.courseId);
+
+    this.loading.set(true);
+    this.error.set(null);
+
+    this.enrollmentService.create(courseId, { studentId }).subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.submitted.set(true);
+      },
+      error: (err: { error?: { detail?: string } }) => {
+        this.loading.set(false);
+        this.error.set(
+          err?.error?.detail ?? 'Enrollment failed. Please try again.'
+        );
+      }
+    });
   }
 }

@@ -1,22 +1,22 @@
-<div class="page" style="max-width:600px; margin:2rem auto; padding:0 1.5rem;">
+<div class="page">
   <h1>Course Enrollment</h1>
 
   @if (submitted()) {
     <div class="success-card">
       <div class="success-icon">✅</div>
       <h2>Enrollment Submitted!</h2>
-      <p>Check the console for the payload details.</p>
+      <p>Your enrollment is <strong>pending</strong> approval.</p>
     </div>
   } @else {
     <form [formGroup]="form" (ngSubmit)="submit()">
 
-      <label>
-        Student ID
-        <input formControlName="studentId" placeholder="e.g. STU-1234" />
-      </label>
-      @if (form.controls.studentId.touched && form.controls.studentId.invalid) {
-        <p class="error">Enter a valid Student ID (format: STU-0000)</p>
-      }
+    <label>
+  Student ID
+  <input formControlName="studentId" placeholder="e.g. 1" type="number" min="1" />
+</label>
+@if (form.controls.studentId.touched && form.controls.studentId.invalid) {
+  <p class="error">Enter a valid Student ID (must be a positive number)</p>
+}
 
       <label>
         Course ID
@@ -50,8 +50,12 @@
         + Add Backup Course
       </button>
 
-      <button type="submit" class="submit-btn" [disabled]="form.invalid">
-        Confirm Enrollment
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+
+      <button type="submit" class="submit-btn" [disabled]="form.invalid || loading()">
+        {{ loading() ? 'Submitting...' : 'Confirm Enrollment' }}
       </button>
 
     </form>

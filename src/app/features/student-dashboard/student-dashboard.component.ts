@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { CourseCardComponent } from "../../ui/course-card/course-card.component";
 import { Course } from "../../models/course.model";
 import { CourseService } from "../../services/course.service";
+import { EnrollmentService } from "../../services/enrollment.service";
 
 @Component({
   selector: 'app-student-dashboard',
@@ -14,21 +15,24 @@ import { CourseService } from "../../services/course.service";
 })
 export class StudentDashboardComponent {
   private api = inject(CourseService);
+  private enrollmentService = inject(EnrollmentService);
   private router = inject(Router);
 
   studentName = signal("Liya Kebede");
   earnedCredits = signal(45);
 
   graduationStatus = computed(() =>
-    this.earnedCredits() >= 120
-      ? "Eligible for Graduation"
-      : "In Progress"
+    this.earnedCredits() >= 120 ? "Eligible for Graduation" : "In Progress"
   );
 
   selectedCourse = signal<Course | null>(null);
 
   coursesResource = rxResource({
     stream: () => this.api.getAll(),
+  });
+
+  enrollmentsResource = rxResource({
+    stream: () => this.enrollmentService.getAll(),
   });
 
   registerForClass() {
