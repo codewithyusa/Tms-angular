@@ -21,9 +21,7 @@ export class GradeSubmissionComponent {
   private fb = inject(FormBuilder);
 
   gradeForm = this.fb.group({
-    studentId: [101, [Validators.required, Validators.min(1)]],
-    courseId: [302, [Validators.required, Validators.min(1)]],
-    score: [88, [Validators.required, Validators.min(0), Validators.max(100)]]
+    score: [null, [Validators.required, Validators.min(0), Validators.max(100)]]
   });
 
   isSubmitting = false;
@@ -60,8 +58,6 @@ export class GradeSubmissionComponent {
     if (this.gradeForm.valid) {
       const rawValue = this.gradeForm.getRawValue();
       this.submitClick$.next({
-        studentId: Number(rawValue.studentId),
-        courseId: Number(rawValue.courseId),
         score: Number(rawValue.score) as any
       });
     }
