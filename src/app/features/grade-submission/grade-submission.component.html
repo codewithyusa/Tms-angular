@@ -5,6 +5,30 @@
   <form [formGroup]="gradeForm" (ngSubmit)="onSubmit()">
 
     <mat-form-field appearance="outline">
+      <mat-label>Student ID</mat-label>
+      <mat-select formControlName="studentId">
+        @for (e of enrollmentsResource.value(); track e.id) {
+          <mat-option [value]="e.studentId">{{ e.studentId }}</mat-option>
+        }
+      </mat-select>
+      @if (gradeForm.controls.studentId.hasError('required')) {
+        <mat-error>Student ID is required</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Course ID</mat-label>
+      <mat-select formControlName="courseId">
+        @for (c of coursesResource.value(); track c.id) {
+          <mat-option [value]="c.id">{{ c.id }} - {{ c.title }}</mat-option>
+        }
+      </mat-select>
+      @if (gradeForm.controls.courseId.hasError('required')) {
+        <mat-error>Course ID is required</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
       <mat-label>Score (0-100)</mat-label>
       <input matInput type="number" formControlName="score" />
       @if (gradeForm.controls.score.hasError('required')) {
@@ -24,7 +48,8 @@
     </button>
 
     @if (submissionStatus) {
-      <p class="status-msg" [class.success]="submissionStatus.includes('success')"
+      <p class="status-msg"
+         [class.success]="submissionStatus.includes('success')"
          [class.error]="submissionStatus.includes('failed')">
         {{ submissionStatus }}
       </p>
