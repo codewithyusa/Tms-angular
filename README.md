@@ -1,6 +1,8 @@
-TMS Client — Training Management System
+# TMS Client — Training Management System
 
 Angular frontend for the CoTBE Training Management System (TMS). The application provides the user-facing interface for authentication, course management, enrollment management, and the instructor Command Center.
+
+---
 
 ## 📸 Screenshots
 
@@ -27,17 +29,27 @@ Angular frontend for the CoTBE Training Management System (TMS). The application
 
 ### Grade Submission
 ![Grade Submission](docs/screenshots/grade-submission.png)
-🛠️ Tech Stack
-Concern	Technology
-Framework	Angular
-Language	TypeScript
-UI	HTML / CSS
-Routing	Angular Router
-HTTP	Angular HttpClient
-Testing	Jasmine / Karma
-E2E Testing	Playwright
-API	ASP.NET Core 10 REST API
-📁 Project Structure
+
+---
+
+## 🛠️ Tech Stack
+
+| Concern      | Technology              |
+|--------------|-------------------------|
+| Framework    | Angular                 |
+| Language     | TypeScript              |
+| UI           | HTML / SCSS             |
+| Routing      | Angular Router          |
+| HTTP         | Angular HttpClient      |
+| Testing      | Jasmine / Karma         |
+| E2E Testing  | Playwright              |
+| API          | ASP.NET Core 10 REST API|
+
+---
+
+## 📁 Project Structure
+
+```
 Tms-client/
 ├── src/
 │   │   index.html
@@ -138,6 +150,8 @@ Tms-client/
 │           environment.development.ts
 │           environment.ts
 │
+├── docs/
+│   └── screenshots/
 ├── tests/
 ├── playwright/
 │   └── .auth/
@@ -147,188 +161,238 @@ Tms-client/
 ├── angular.json
 ├── package.json
 └── README.md
+```
 
-✨ Features
-Authentication
-Login page with username/email and password
-Authentication guard for protected routes
-Admin authentication for E2E tests
-Reusable Playwright authentication state
-Courses
-Course card component
-Course title and course information display
-Enrollment action
-Instructor Command Center integration
-Enrollments
-Retrieve enrollments from the API
-Approve student enrollments
-HTTP request/response testing
-Routing
-/login — Login page
-/command-center — Protected instructor dashboard
-Unknown routes redirect to /login
-🔐 Authentication
+---
 
-Protected routes use the application's authentication guard.
+## ✨ Features
 
-The main protected route is:
+### Authentication
+- Login page with email and password
+- Register page with role selection
+- Authentication guard for protected routes
+- Admin authentication for E2E tests
+- Reusable Playwright authentication state
 
-/command-center
+### Courses
+- Course card component
+- Course catalog with seat availability
+- Enrollment action from course list
+- Course detail view
 
+### Enrollments
+- Retrieve enrollments from the API
+- Approve or reject student enrollments
+- Enrollment form with backup courses
+- HTTP request/response testing
+
+### Grades
+- Grade submission form for instructors
+- Midterm grading with student and course selection
+
+### Dashboards
+- Student dashboard — enrolled courses and status
+- Instructor Command Center — analytics and enrollment management
+
+### Routing
+- `/login` — Login page
+- `/register` — Registration page
+- `/student-dashboard` — Student view
+- `/instructor-dashboard` — Instructor Command Center
+- `/courses` — Course catalog
+- `/enrollment-form` — Enroll in a course
+- `/enrollment-list` — Enrollment records
+- `/grade-submission` — Grade submission
+- `/unauthorized` — Access denied
+- Unknown routes redirect to `/login`
+
+---
+
+## 🔐 Authentication
+
+Protected routes use the application's role guard.
 
 Playwright authentication can be configured using environment variables:
 
+```
 TMS_ADMIN_EMAIL
 TMS_ADMIN_USER
 TMS_ADMIN_PASS
-
+```
 
 Example PowerShell configuration:
 
+```powershell
 $env:TMS_ADMIN_EMAIL="admin@example.com"
-$env:TMS_ADMIN_PASS="your-password"
+$env:TMS_ADMIN_PASS="password"
+```
 
+> Do not commit real credentials to the repository.
 
-Do not commit real credentials to the repository.
+---
 
-🚀 Getting Started
-Prerequisites
-Node.js
-npm
-Angular CLI
-Running TMS API
+## 🚀 Getting Started
 
-Check Node and npm:
+### Prerequisites
+- Node.js
+- npm
+- Angular CLI
 
+### Check Node and npm
+
+```bash
 node --version
 npm --version
+```
 
-1. Install dependencies
+### 1. Install dependencies
+
+```bash
 npm install
+```
 
-2. Start the development server
+### 2. Start the development server
+
+```bash
 npm start
+```
 
+The application will be available at:
 
-The application will normally be available at:
-
+```
 http://localhost:4200
+```
 
-🧪 Testing
-Unit and Integration Tests
+---
 
-Run the Angular test suite:
+## 🧪 Testing
 
+### Unit and Integration Tests
+
+```bash
 npm test
-
+```
 
 The project includes tests for:
+- App component
+- Course card component
+- Enrollment service
+- Grade service
+- HTTP requests and responses
+- Enrollment approval
 
-App component
-Course card component
-Enrollment service
-HTTP requests and responses
-Enrollment approval
-Playwright E2E Tests
+### Playwright E2E Tests
 
-Run all end-to-end tests:
-
+```bash
 npx playwright test
+```
 
+Run with browser visible:
 
-Run tests with the browser visible:
-
+```bash
 npx playwright test --headed
-
+```
 
 Run a specific test:
 
+```bash
 npx playwright test tests/example.spec.ts
+```
 
+View the HTML report:
 
-View the Playwright HTML report:
-
+```bash
 npx playwright show-report
+```
 
-🎭 Playwright Authentication
+---
+
+## 🎭 Playwright Authentication
 
 Playwright uses a reusable authenticated browser state for admin tests.
 
 The authentication setup:
+1. Navigates to `/login`
+2. Fills the email and password
+3. Clicks Sign In
+4. Verifies the Command Center heading
+5. Saves the authenticated browser state
 
-Navigates to /login
-Fills the username/email
-Fills the password
-Clicks Sign In
-Verifies the Command Center heading
-Saves the authenticated browser state
+State is stored at:
 
-The state is stored at:
-
+```
 playwright/.auth/admin.json
+```
 
+Add to `.gitignore` if necessary:
 
-The authentication state should not be committed to Git.
-
-Add the following to .gitignore if necessary:
-
+```
 playwright/.auth/
+```
 
-📡 API Integration
+---
 
-The Angular application communicates with the TMS ASP.NET Core API.
+## 📡 API Integration
 
-Example enrollment endpoint:
+The Angular application communicates with the TMS ASP.NET Core API via HTTP interceptors for JWT authentication, credentials, and error handling.
 
-GET /api/enrollments
+| Method | Endpoint |
+|--------|----------|
+| GET    | `/api/enrollments` |
+| POST   | `/api/enrollments/{id}/approve` |
 
+---
 
-Approve enrollment:
-
-POST /api/enrollments/{id}/approve
-
-
-The frontend uses Angular's HttpClient for API communication.
-
-🧩 Development
+## 🧩 Development
 
 Start the frontend:
 
+```bash
 npm start
+```
 
+Start the backend API:
 
-Start the backend API separately:
-
+```bash
 dotnet run --project TmsApi.Api/TmsApi.Api.csproj
+```
 
+> Make sure the API is running before testing features that require backend communication.
 
-Make sure the API is running before testing features that require backend communication.
+---
 
-📋 Test Coverage
+## 📋 Test Coverage
 
-The project currently includes coverage for:
+- Course title rendering
+- Course enrollment button events
+- Enrollment retrieval and approval
+- Grade service operations
+- HTTP request methods and URLs
+- Application routing
+- Authentication flow
+- Protected route access
+- Browser-based E2E scenarios
 
-Course title rendering
-Course enrollment button events
-Enrollment retrieval
-Enrollment approval
-HTTP request methods and URLs
-Application routing
-Authentication flow
-Protected Command Center access
-Browser-based E2E scenarios
-🏗️ Project Goals
+---
 
-This project is part of the CoTBE Software Engineering Programme and demonstrates modern frontend development practices including:
+## 🏗️ Project Goals
 
-Component-based Angular development
-Service-based API integration
-Route guards
-Unit and integration testing
-Semantic accessibility-based Playwright locators
-Reusable authentication state
-End-to-end browser testing
-Clean Git commit practices
-📄 License
+This project is part of the CoTBE Software Engineering Programme and demonstrates:
+
+- Component-based Angular development
+- Feature-based folder structure
+- Service-based API integration
+- HTTP interceptors (JWT, credentials, error handling)
+- Role-based route guards
+- State management with stores
+- Unit and integration testing
+- Semantic accessibility-based Playwright locators
+- Reusable authentication state
+- End-to-end browser testing
+- Clean Git commit practices
+
+---
+
+## 📄 License
 
 School project — CoTBE Software Engineering Programme 2026.
