@@ -2,10 +2,31 @@ TMS Client — Training Management System
 
 Angular frontend for the CoTBE Training Management System (TMS). The application provides the user-facing interface for authentication, course management, enrollment management, and the instructor Command Center.
 
-📸 Screenshots
+## 📸 Screenshots
 
-Add screenshots of the Login page, Course Cards, Command Center, and other important screens here.
+### Login
+![Login](docs/screenshots/login.png)
 
+### Register
+![Register](docs/screenshots/register.png)
+
+### Student Dashboard
+![Student Dashboard](docs/screenshots/student-dashboard.png)
+
+### Course Catalog
+![Course Catalog](docs/screenshots/course-list.png)
+
+### Course Enrollment
+![Enrollment Form](docs/screenshots/enrollment-form.png)
+
+### Instructor Command Center
+![Instructor Dashboard](docs/screenshots/instructor-dashboard.png)
+
+### Enrollment Records
+![Enrollment List](docs/screenshots/enrollment-list.png)
+
+### Grade Submission
+![Grade Submission](docs/screenshots/grade-submission.png)
 🛠️ Tech Stack
 Concern	Technology
 Framework	Angular
@@ -19,23 +40,109 @@ API	ASP.NET Core 10 REST API
 📁 Project Structure
 Tms-client/
 ├── src/
+│   │   index.html
+│   │   main.ts
+│   │   proxy.conf.json
+│   │   styles.scss
+│   │
 │   ├── app/
+│   │   │   app.component.ts
+│   │   │   app.config.ts
+│   │   │   app.html
+│   │   │   app.routes.ts
+│   │   │   app.scss
+│   │   │   app.spec.ts
+│   │   │   app.ts
+│   │   │
+│   │   ├── features/
+│   │   │   ├── auth/
+│   │   │   │   ├── login/
+│   │   │   │   │       login.component.html
+│   │   │   │   │       login.component.scss
+│   │   │   │   │       login.component.ts
+│   │   │   │   └── register/
+│   │   │   │           register.component.html
+│   │   │   │           register.component.scss
+│   │   │   │           register.component.ts
+│   │   │   ├── course-detail/
+│   │   │   │       course-detail.component.html
+│   │   │   │       course-detail.component.scss
+│   │   │   │       course-detail.component.ts
+│   │   │   ├── course-list/
+│   │   │   │       course-list.component.html
+│   │   │   │       course-list.component.scss
+│   │   │   │       course-list.component.ts
+│   │   │   ├── enrollment-form/
+│   │   │   │       enrollment-form.component.html
+│   │   │   │       enrollment-form.component.scss
+│   │   │   │       enrollment-form.component.ts
+│   │   │   ├── enrollment-list/
+│   │   │   │       enrollment-list.component.html
+│   │   │   │       enrollment-list.component.scss
+│   │   │   │       enrollment-list.component.ts
+│   │   │   ├── grade-submission/
+│   │   │   │       grade-submission.component.html
+│   │   │   │       grade-submission.component.scss
+│   │   │   │       grade-submission.component.spec.ts
+│   │   │   │       grade-submission.component.ts
+│   │   │   ├── instructor-dashboard/
+│   │   │   │       instructor-dashboard.component.html
+│   │   │   │       instructor-dashboard.component.scss
+│   │   │   │       instructor-dashboard.component.ts
+│   │   │   ├── student-dashboard/
+│   │   │   │       student-dashboard.component.html
+│   │   │   │       student-dashboard.component.scss
+│   │   │   │       student-dashboard.component.ts
+│   │   │   └── unauthorized/
+│   │   │           unauthorized.component.html
+│   │   │           unauthorized.component.scss
+│   │   │           unauthorized.component.ts
+│   │   │
+│   │   ├── guards/
+│   │   │       role.guard.ts
+│   │   │
+│   │   ├── interceptors/
+│   │   │       credentials.interceptor.ts
+│   │   │       error.interceptor.ts
+│   │   │       jwt.interceptor.ts
+│   │   │
+│   │   ├── models/
+│   │   │       course.model.ts
+│   │   │       enrollment.model.ts
+│   │   │
 │   │   ├── services/
-│   │   │   ├── enrollment.service.ts
-│   │   │   └── enrollment.service.spec.ts
-│   │   ├── ui/
-│   │   │   └── course-card/
-│   │   │       ├── course-card.component.ts
-│   │   │       ├── course-card.component.html
-│   │   │       ├── course-card.component.css
-│   │   │       └── course-card.component.spec.ts
-│   │   ├── app.component.ts
-│   │   ├── app.component.html
-│   │   ├── app.routes.ts
-│   │   └── app.spec.ts
-│   └── ...
+│   │   │       auth.service.ts
+│   │   │       course.service.ts
+│   │   │       enrollment.service.spec.ts
+│   │   │       enrollment.service.ts
+│   │   │       grade.service.spec.ts
+│   │   │       grade.service.ts
+│   │   │       live-sync.ts
+│   │   │
+│   │   ├── store/
+│   │   │       course.store.ts
+│   │   │       enrollment.store.ts
+│   │   │
+│   │   └── ui/
+│   │       ├── analytics-chart/
+│   │       │       analytics-chart.component.html
+│   │       │       analytics-chart.component.scss
+│   │       │       analytics-chart.component.ts
+│   │       └── course-card/
+│   │               course-card.component.html
+│   │               course-card.component.scss
+│   │               course-card.component.spec.ts
+│   │               course-card.component.ts
+│   │
+│   └── environments/
+│           environment.development.ts
+│           environment.ts
+│
 ├── tests/
-│   └── ...
+├── playwright/
+│   └── .auth/
+├── playwright-report/
+├── public/
 ├── playwright.config.ts
 ├── angular.json
 ├── package.json
